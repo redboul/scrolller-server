@@ -1,8 +1,9 @@
 import { LoadAllEntries } from "./services/handlers/load-all-entries/load-all-entries.ts";
 import { SaveEntryHandler } from "./services/handlers/save-entry/save-entry.ts";
 import { FileRepository } from "./services/repositories/file.ts";
+import { SqliteRepository } from "./services/repositories/sqlite.ts";
 
-const repository = new FileRepository();
+const repository = new SqliteRepository();
 const urlPatterns = [new SaveEntryHandler(repository), new LoadAllEntries(repository)];
 
 async function handler(req: Request): Promise<Response> {
