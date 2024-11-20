@@ -8,7 +8,7 @@ export class FileRepository implements Repository{
     private logger = new Logger();
     saveEntry(entry: Entry): void {
         appendFile(fileName, `,\n"${entry.url}"`, () => {
-            console.log('The "data to append" was appended to file!');
+            this.logger.info('The "data to append" was appended to file!');
         });
     }
     async loadAllEntries() {

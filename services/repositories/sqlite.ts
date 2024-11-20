@@ -4,9 +4,10 @@ import { Entry, Repository } from "./repository.ts";
 const TABLE_NAME = 'entries';
 const URL_COLUMN_NAME = 'url';
 const FLAVOR_COLUMN_NAME = 'flavor';
+const databasName = "test.db";
 
 function initDB() {
-    const db = new Database("test.db");
+    const db = new Database(databasName);
     db.prepare(
     `
         CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
@@ -24,7 +25,7 @@ export class SqliteRepository implements Repository {
         initDB();
     }
     loadAllEntries(): Promise<Entry[]> {
-        const db = new Database("test.db");
+        const db = new Database(databasName);
         try {
             const rows = db.prepare(`SELECT ${URL_COLUMN_NAME} FROM ${TABLE_NAME} where ${FLAVOR_COLUMN_NAME} = ?`).all(0);
             return Promise.resolve(rows.map(row => ({url: row.url})));
@@ -33,7 +34,7 @@ export class SqliteRepository implements Repository {
         }
     }
     saveEntry(entry: Entry): void {
-        const db = new Database("test.db");
+        const db = new Database(databasName);
         try{
         db.prepare(
             `
