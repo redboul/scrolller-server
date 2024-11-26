@@ -1,5 +1,6 @@
 export interface Repository {
     saveEntry(entry: Entry): void;
+    deleteEntry(entry: Entry): void;
     loadAllEntries(): Promise<Entry[]>;
 }
 

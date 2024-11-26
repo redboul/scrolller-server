@@ -11,6 +11,9 @@ export class FileRepository implements Repository{
             this.logger.info('The "data to append" was appended to file!');
         });
     }
+    deleteEntry(entry: Entry): void {
+        //TODO
+    }
     async loadAllEntries() {
         const content = await Deno.readTextFile(fileName);
         this.logger.info('here is the content', content)
