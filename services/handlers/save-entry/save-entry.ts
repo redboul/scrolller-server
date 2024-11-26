@@ -20,6 +20,7 @@ export class SaveEntryHandler implements Handler {
                 return Promise.resolve(new Response("ok", {
                     headers: {
                         "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS"
                     },
                 }));
             }

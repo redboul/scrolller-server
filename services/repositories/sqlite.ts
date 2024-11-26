@@ -4,7 +4,7 @@ import { Entry, Repository } from "./repository.ts";
 const TABLE_NAME = 'entries';
 const URL_COLUMN_NAME = 'url';
 const FLAVOR_COLUMN_NAME = 'flavor';
-const databasName = "pro.db";
+const databasName = "test.db";
 
 function initDB() {
     const db = new Database(databasName);
@@ -52,7 +52,7 @@ export class SqliteRepository implements Repository {
             `
                 DELETE FROM ${TABLE_NAME} WHERE ${URL_COLUMN_NAME} = ?;
             `,
-            ).run(entry.url, 0);
+            ).run(entry.url);
         } finally {
             db.close();
         }
