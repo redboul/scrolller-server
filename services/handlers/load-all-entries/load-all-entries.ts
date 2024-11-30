@@ -48,7 +48,7 @@ export class LoadAllEntries implements Handler {
           const page = +(matcher.search.groups.page || 0);
           const pageSize = +(matcher.search.groups.pageSize || 100);
           this.logger.info('loading all entries', type, seed, page, pageSize);
-          return this.repository.loadAllEntries()
+          return this.repository.loadAllEntries(type)
             .then((entries) => this.getPage(entries, seed, page, pageSize))
             .then((entries) => {
               return Response.json(entries, {

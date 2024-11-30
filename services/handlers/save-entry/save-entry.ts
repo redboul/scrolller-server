@@ -1,6 +1,7 @@
 import Logger from "https://deno.land/x/logger@v1.1.6/logger.ts";
-import { Repository } from "../../repositories/repository.ts";
+import { ALL_FLAVOR, Repository } from "../../repositories/repository.ts";
 import { Handler } from "../handler.ts";
+
 
 const SAVE_ROUTE = new URLPattern({ pathname: "/entries", search:"type=:type&url=:url" });
 
@@ -14,9 +15,10 @@ export class SaveEntryHandler implements Handler {
         const matcher = SAVE_ROUTE.exec(req.url);
         if(matcher) {
             const id = matcher.search.groups.url;
-            this.logger.info(req.url, id);
+            const type: string = matcher.search.groups.type;
+            this.logger.info(req.url, id, type);
             if(id) {
-                this.repository.saveEntry({ url: id });
+                this.repository.saveEntry({ url: id, type });
                 return Promise.resolve(new Response("ok", {
                     headers: {
                         "Access-Control-Allow-Origin": "*",

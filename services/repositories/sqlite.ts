@@ -1,10 +1,15 @@
 import { Database } from "jsr:@db/sqlite@0.12";
-import { Entry, Repository } from "./repository.ts";
+import { BLUR_FLAVOR, Entry, Repository, SPLIKNOT_FLAVOR } from "./repository.ts";
 
 const TABLE_NAME = 'entries';
 const URL_COLUMN_NAME = 'url';
 const FLAVOR_COLUMN_NAME = 'flavor';
 const databasName = "test.db";
+
+const flavors = {
+    [BLUR_FLAVOR]: 0,
+    [SPLIKNOT_FLAVOR]: 1,
+}
 
 function initDB() {
     const db = new Database(databasName);
@@ -24,10 +29,15 @@ export class SqliteRepository implements Repository {
     constructor() {
         initDB();
     }
-    loadAllEntries(): Promise<Entry[]> {
+    loadAllEntries(type?: string): Promise<Entry[]> {
         const db = new Database(databasName);
         try {
-            const rows = db.prepare(`SELECT ${URL_COLUMN_NAME} FROM ${TABLE_NAME} where ${FLAVOR_COLUMN_NAME} = ?`).all(0);
+            let rows;
+            if(type) {
+                rows = db.prepare(`SELECT ${URL_COLUMN_NAME} FROM ${TABLE_NAME} where ${FLAVOR_COLUMN_NAME} = ?`).all(flavors[type] ?? 0);
+            } else {
+                rows = db.prepare(`SELECT ${URL_COLUMN_NAME} FROM ${TABLE_NAME}`).all();
+            }
             return Promise.resolve(rows.map(row => ({url: row.url})));
         } finally {
             db.close();
@@ -40,7 +50,7 @@ export class SqliteRepository implements Repository {
             `
                 INSERT INTO ${TABLE_NAME} (${URL_COLUMN_NAME}, ${FLAVOR_COLUMN_NAME}) VALUES (?, ?);
             `,
-            ).run(entry.url, 0);
+            ).run(entry.url, flavors[entry.type ?? BLUR_FLAVOR]);
         } finally {
             db.close();
         }
