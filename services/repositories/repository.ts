@@ -2,6 +2,7 @@ export interface Repository {
     saveEntry(entry: Entry): void;
     deleteEntry(entry: Entry): void;
     loadAllEntries(type?: string): Promise<Entry[]>;
+    mergeDatabase(toMergeName: string);
 }
 
 export const ALL_FLAVOR = "all";

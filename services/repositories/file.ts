@@ -19,4 +19,5 @@ export class FileRepository implements Repository{
         this.logger.info('here is the content', content)
         return (JSON.parse(`[${content}]`) as string[]).map(url => ({url} as Entry))
     }
+    mergeDatabase(toMergeName: string) {
 }

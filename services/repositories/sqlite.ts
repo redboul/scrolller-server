@@ -67,4 +67,14 @@ export class SqliteRepository implements Repository {
             db.close();
         }
     }
+    mergeDatabase(toMergeName: string) {
+        const db = new Database(databasName);
+        const toMerge = new Database(toMergeName);
+        try {
+            const rows = toMerge.prepare(`SELECT ${URL_COLUMN_NAME}, ${FLAVOR_COLUMN_NAME} FROM ${TABLE_NAME}`).all();
+            rows.forEach(row => this.saveEntry(row));
+        } finally {
+            db.close();
+        }
+    }
 }
