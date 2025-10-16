@@ -1,4 +1,4 @@
-import { DeleteEntryHandler } from "./services/handlers/delete-entry/delete-entry.ts";
+import { GetNextPage } from "./services/handlers/get-next-page/get-next-page.ts";
 import { LoadAllEntries } from "./services/handlers/load-all-entries/load-all-entries.ts";
 import { SaveEntryHandler } from "./services/handlers/save-entry/save-entry.ts";
 import { FileRepository } from "./services/repositories/file.ts";
@@ -6,7 +6,7 @@ import { SqliteRepository } from "./services/repositories/sqlite.ts";
 import Logger from "https://deno.land/x/logger@v1.1.6/logger.ts";
 
 const repository = new SqliteRepository();
-const urlPatterns = [new SaveEntryHandler(repository), new LoadAllEntries(repository), new DeleteEntryHandler(repository)];
+const urlPatterns = [new SaveEntryHandler(repository), new LoadAllEntries(repository), new GetNextPage()];
 const logger = new Logger();
 
 async function handler(req: Request): Promise<Response> {
