@@ -17,7 +17,7 @@ export class GetNextPage implements Handler {
     async fetchUrl (category: String, sortOrder: String, limit: String, count: String, after: String) {
         // `https://www.reddit.com/r/${category}/${sortOrder.value}.json?limit=${nbOfItems}&count=${postList.state?.posts?.length ?? 100}&after=${postList.state.after}&f=${queryParams.value}`,{
         const url = `https://oauth.reddit.com/r/${category}/${sortOrder}.json?limit=${limit}&count=${count}&after=${after}`;
-
+        this.logger.info('url', url);
         const response = await fetch(url,
             {
             method: 'GET',
